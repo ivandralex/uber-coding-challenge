@@ -7,6 +7,8 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/ubercodingchallenge-dev'
   },
-
-  seedDB: true
+  external: {
+    sfOpenDataToken: '3JS4AnvFkRcadzKVu0xfpJlR1',
+    sfOpenDataSecret: 'hSDDgRAgn8K23SAkZWacMQRnnDXm0QayxmqN'
+  }
 };

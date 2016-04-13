@@ -19,5 +19,9 @@ module.exports = {
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/ubercodingchallenge'
+  },
+  external: {
+    sfOpenDataToken: 'ngYbG7Fgd8eQBXzhMs8P7iYrA',
+    sfOpenDataSecret: '_4nxcJxs092iAVG1vxSIdKr-LhNs8MVM4Y6w'
   }
 };
