@@ -5,6 +5,10 @@ var config = require('../config/environment');
 var FoodTruck = require('../api/foodtruck/foodtruck.model');
 
 exports.import = function(){
+
+}
+
+function importPermits(){
 	//TODO: add logging
 	//TODO: checking if objectId not duplicated
 	request(config.external.foodTrucksEndpoint, function(error, response, body){
@@ -30,11 +34,27 @@ exports.import = function(){
                     };
                 }
 
+                var foodItem;
+                var foodItems = [];
+                var rawFoodItems = permit.fooditems.split(':');
+
+                for(var j = 0, rLength = rawFoodItems.length; j < rLength; j++){
+                	foodItem = rawFoodItems[j];
+
+                	if(!foodItem){
+                		continue;
+                	}
+
+                	foodItem = foodItem.trim()
+
+                	foodItems.push(foodItem.toLowerCase());
+                }
+
 				foodTrucks.push({
 					title: permit.applicant,
 					address: permit.address,
 					locationDescription: permit.locationdescription,
-					foodItems: permit.fooditems,
+					foodItems: foodItems,
 					externalObjectId: permit.objectid,
 					schedule: permit.schedule,
 					loc: loc,

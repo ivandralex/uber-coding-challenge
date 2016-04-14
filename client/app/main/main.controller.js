@@ -17,12 +17,14 @@ angular.module('uberCodingChallengeApp')
 
     $scope.foodTrucks = FoodTruck.search($scope.map.center);
 
+    /*
     uiGmapGoogleMapApi.then(function(maps) {
       //Map is ready
     });
+    */
 
     $scope.onTruckClick = function(event){
-      console.log('click', event.model._id);
+      console.log('click', event.model._id, event.model.foodItems.length);
       $scope.currentTruck = event.model;
       $scope.truckInfoVisible = true;
     }

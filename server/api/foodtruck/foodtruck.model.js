@@ -7,7 +7,7 @@ var FoodTruckSchema = new Schema({
 	title: String,
 	address: String,
 	locationDescription: String,
-	foodItems: String,
+	foodItems: [String],
 	externalObjectId: String,
 	schedule: String,
 	loc: {
