@@ -23,9 +23,13 @@ angular.module('uberCodingChallengeApp')
     });
     */
 
-    $scope.onTruckClick = function(event){
-      console.log('click', event.model._id, event.model.foodItems.length);
-      $scope.currentTruck = event.model;
+    $scope.onTruckClick = function(event, eventName, model){
+      console.log('click', model._id, model.foodItems.length);
+      $scope.currentTruck = model;
       $scope.truckInfoVisible = true;
+    }
+
+    $scope.onTruckInfoClosed = function(){
+      $scope.truckInfoVisible = false;
     }
   });
