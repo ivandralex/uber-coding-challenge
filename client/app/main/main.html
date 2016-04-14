@@ -1,15 +1,27 @@
 <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options">
-  <ui-gmap-marker ng-repeat="truck in foodTrucks"
-    idKey="truck._id"
-    coords="truck.loc">
-  </ui-gmap-marker>
+    <ui-gmap-markers
+        models="foodTrucks"
+        idKey="'_id'"
+        coords="'loc'"
+        click="onTruckClick">
+    </ui-gmap-markers>
+    <ui-gmap-window
+        coords="currentTruck.loc"
+        show="truckInfoVisible"
+        templateParameter=""
+        closeClick="onTruckInfoClosed">
+        <div>
+            <h3>{{currentTruck.title}}</h3>
+            <span>{{currentTruck.foodItems}}</span>
+        </div>
+    </ui-gmap-window>
 </ui-gmap-google-map>
 
 <!--
 click="{expression}"
-	        options="{expression}"
-	        events="{expression}"
-	        control="{expression}"
+            options="{expression}"
+            events="{expression}"
+            control="{expression}"
 
 -->
 
