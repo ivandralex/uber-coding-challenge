@@ -6,7 +6,6 @@ var controller = require('./foodtruck.controller');
 var router = express.Router();
 
 router.post('/search', controller.search);
-//Disallow other verbs
 router.get('/search', controller.searchMethodNotAllowed);
 router.delete('/search', controller.searchMethodNotAllowed);
 router.put('/search', controller.searchMethodNotAllowed);

@@ -9,15 +9,16 @@ exports.search = function(req, res){
     return res.status(405).json({description: 'Method not allowed'});
   }
 
-  console.log(req.params)
+  console.log(req.params, req.body)
 
-  if(!req.params.latitude || !req.params.longitude){
+  if(!req.body.latitude || !req.body.longitude){
       return res.status(400).json({description: 'longitude and latitude are mandatory parameters'});
   }
 
   //Find food trucks by coordinates
-  FoodTruck.find({locaction: { $near: [req.params.latitude, req.params.longitude]}}, function(err, foodTrucks){
+  FoodTruck.find({locaction: { $near: [req.body.latitude, req.body.longitude]}}, function(err, foodTrucks){
     if(err){
+      console.log(err)
       return handleError(res, err);
     }
     if(!foodTrucks){
