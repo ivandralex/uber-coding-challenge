@@ -15,8 +15,16 @@ exports.search = function(req, res){
       return res.status(400).json({description: 'longitude and latitude are mandatory parameters'});
   }
 
+  var query = {
+    loc: {
+      $geoWithin: {
+        $centerSphere: [[Number(req.body.latitude), Number(req.body.longitude)], 1/3963.2]
+      }
+    }
+  };
+
   //Find food trucks by coordinates
-  FoodTruck.find({locaction: { $near: [req.body.latitude, req.body.longitude]}}, function(err, foodTrucks){
+  FoodTruck.find(query, function(err, foodTrucks){
     if(err){
       console.log(err)
       return handleError(res, err);
@@ -30,7 +38,7 @@ exports.search = function(req, res){
 };
 
 exports.searchMethodNotAllowed = function(req, res){
-  //We MUST include Allow headers that contains valid verbs
+  //We MUST include Allow header that contains valid verbs
   res.setHeader('Allow', 'POST');
   return res.status(405).json({description: 'Method not allowed'});
 }

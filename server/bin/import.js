@@ -21,6 +21,15 @@ exports.import = function(){
 					continue;
 				}
 
+                var loc;
+
+                if(permit.longitude && permit.latitude){
+                    loc = {
+                        type: 'Point',
+                        coordinates: [Number(permit.longitude), Number(permit.latitude)]
+                    };
+                }
+
 				foodTrucks.push({
 					title: permit.applicant,
 					address: permit.address,
@@ -28,8 +37,7 @@ exports.import = function(){
 					foodItems: permit.fooditems,
 					externalObjectId: permit.objectid,
 					schedule: permit.schedule,
-					location: permit.longitude  && permit.latitude ?
-						[Number(permit.longitude), Number(permit.latitude)] : undefined,
+					loc: loc,
 					type: permit.facilitytype,
 					permitExpirationDate: permit.expirationDate,
 					daysHours: permit.dayshours

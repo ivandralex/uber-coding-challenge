@@ -10,12 +10,19 @@ var FoodTruckSchema = new Schema({
 	foodItems: String,
 	externalObjectId: String,
 	schedule: String,
-	location: {type: [Number], required: false},
+	loc: {
+		'type': {
+			type: String,
+			enum: ['Point', 'LineString', 'Polygon']
+		},
+		coordinates: [Number],
+		required: false
+	},
 	type: String,
 	permitExpirationDate: String,
 	daysHours: String
 });
 
-FoodTruckSchema.index({ location: '2d' });
+FoodTruckSchema.index({ loc: '2dsphere' });
 
 module.exports = mongoose.model('FoodTruck', FoodTruckSchema);

@@ -2,5 +2,5 @@
 
 angular.module('uberCodingChallengeApp')
   .controller('MainCtrl', function ($scope, FoodTruck) {
-    $scope.foodTrucks = FoodTruck.search({longitude: 10, latitude: -120});
+    $scope.foodTrucks = FoodTruck.search({longitude: 37.7642669, latitude: -122.4427585});
   });
