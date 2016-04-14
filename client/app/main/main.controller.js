@@ -4,7 +4,7 @@ angular.module('uberCodingChallengeApp')
   .controller('MainCtrl', function ($scope, $http) {
     $scope.awesomeThings = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
+    $http.get('/api/foodtrucks').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
     });
 
@@ -12,11 +12,11 @@ angular.module('uberCodingChallengeApp')
       if($scope.newThing === '') {
         return;
       }
-      $http.post('/api/things', { name: $scope.newThing });
+      $http.post('/api/foodtrucks', { name: $scope.newThing });
       $scope.newThing = '';
     };
 
     $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
+      $http.delete('/api/foodtrucks/' + thing._id);
     };
   });
