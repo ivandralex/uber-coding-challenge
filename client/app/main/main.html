@@ -1,4 +1,17 @@
-<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+<ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options">
+  <ui-gmap-marker ng-repeat="truck in foodTrucks"
+    idKey="truck._id"
+    coords="truck.loc">
+  </ui-gmap-marker>
+</ui-gmap-google-map>
+
+<!--
+click="{expression}"
+	        options="{expression}"
+	        events="{expression}"
+	        control="{expression}"
+
+-->
 
 <div id="banner">
   <div class="container">

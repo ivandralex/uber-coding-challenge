@@ -18,7 +18,7 @@ exports.search = function(req, res){
   var query = {
     loc: {
       $geoWithin: {
-        $centerSphere: [[Number(req.body.latitude), Number(req.body.longitude)], 1/3963.2]
+        $centerSphere: [[Number(req.body.longitude), Number(req.body.latitude)], 1/3963.2]
       }
     }
   };
