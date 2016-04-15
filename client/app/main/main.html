@@ -1,4 +1,6 @@
-<ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
+<ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" styles="map.styles">
+	<ui-gmap-circle center="searchPoint" stroke="map.circle.stroke" fill="map.circle.fill" radius="map.circle.radius" editable="false" draggable="false" clickable="false">
+    </ui-gmap-circle>
     <ui-gmap-markers models="foodTrucks" idKey="'_id'" coords="'loc'" click="onTruckClick">
     </ui-gmap-markers>
     <ui-gmap-window coords="currentTruck.loc" templateUrl="'app/main/info.html'" templateParameter="currentTruck" show="truckInfoVisible">
