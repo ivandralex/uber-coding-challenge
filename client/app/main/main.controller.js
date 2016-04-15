@@ -12,24 +12,21 @@ angular.module('uberCodingChallengeApp')
         mapTypeControl: false,
         streetViewControl: false,
         rotateControl: false
+      },
+      events: {
+        click: function(instance, eventName, handler){
+          $scope.foodTrucks = FoodTruck.search({
+            longitude: handler[0].latLng.lng(),
+            latitude: handler[0].latLng.lat()
+          });
+        }
       }
     };
 
     $scope.foodTrucks = FoodTruck.search($scope.map.center);
 
-    /*
-    uiGmapGoogleMapApi.then(function(maps) {
-      //Map is ready
-    });
-    */
-
     $scope.onTruckClick = function(event, eventName, model){
-      console.log('click', model._id, model.foodItems.length);
       $scope.currentTruck = model;
       $scope.truckInfoVisible = true;
-    }
-
-    $scope.onTruckInfoClosed = function(){
-      $scope.truckInfoVisible = false;
     }
   });

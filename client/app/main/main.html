@@ -1,7 +1,7 @@
-<ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options">
+<ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
     <ui-gmap-markers models="foodTrucks" idKey="'_id'" coords="'loc'" click="onTruckClick">
     </ui-gmap-markers>
-    <ui-gmap-window coords="currentTruck.loc" templateUrl="'app/main/info.html'" templateParameter="currentTruck" show="truckInfoVisible" closeClick="onTruckInfoClosed">
+    <ui-gmap-window coords="currentTruck.loc" templateUrl="'app/main/info.html'" templateParameter="currentTruck" show="truckInfoVisible">
     </ui-gmap-window>
 </ui-gmap-google-map>
 
