@@ -18,10 +18,17 @@ angular.module('uberCodingChallengeApp')
         streetViewControl: false,
         rotateControl: false
       },
-      //Custom style to hide standard poi on the map
+      //Custom style to hide standard poi and transit signs on the map
       styles: [
           {
               featureType: "poi",
+              elementType: "labels",
+              stylers: [
+                    { visibility: "off" }
+              ]
+          },
+          {
+              featureType: "transit",
               elementType: "labels",
               stylers: [
                     { visibility: "off" }
