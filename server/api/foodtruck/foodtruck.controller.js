@@ -9,21 +9,25 @@ exports.search = function(req, res){
     return res.status(405).json({description: 'Method not allowed'});
   }
 
-  console.log(req.params, req.body)
-
-  if(!req.body.latitude || !req.body.longitude){
+  //TODO: more strict validation
+  if(!req.body.latitude || !req.body.longitude || !req.body.radius){
       return res.status(400).json({description: 'longitude and latitude are mandatory parameters'});
   }
 
+  var longitude = Number(req.body.longitude);
+  var latitude = Number(req.body.latitude);
+  //In order to convert meters to radians we divide them by equatorial radius of the Earth
+  var radius = Number(req.body.radius)/6378137;
+
+  //Find trucks located winthin a sphere with specified center and radius 
   var query = {
     loc: {
       $geoWithin: {
-        $centerSphere: [[Number(req.body.longitude), Number(req.body.latitude)], 1/3963.2]
+        $centerSphere: [[longitude, latitude], radius]
       }
     }
   };
 
-  //Find food trucks by coordinates
   FoodTruck.find(query, function(err, foodTrucks){
     if(err){
       console.log(err)

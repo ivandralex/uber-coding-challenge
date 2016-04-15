@@ -2,12 +2,14 @@
 
 angular.module('uberCodingChallengeApp')
   .controller('MainCtrl', function ($scope, FoodTruck, uiGmapGoogleMapApi) {
+    //Default radius is 1 mile or approximately 20 minutes of walking
+    var DEFAULT_RADIUS_METERS = 1609;
     //Map settings
     $scope.map = {
       //Default center of the map
       center: {
-        latitude: 37.7832003,
-        longitude: -122.42959
+        longitude: -122.42959,
+        latitude: 37.7832003
       },
       zoom: 14,
       //Hide standard controls irrelevant for the app
@@ -34,13 +36,14 @@ angular.module('uberCodingChallengeApp')
           //Start new trucks search with coords of the click
           $scope.searchPoint = {
             longitude: handler[0].latLng.lng(),
-            latitude: handler[0].latLng.lat()
+            latitude: handler[0].latLng.lat(),
+            radius: DEFAULT_RADIUS_METERS
           };
           $scope.foodTrucks = FoodTruck.search($scope.searchPoint);
         }
       },
       circle: {
-        radius: 1609,
+        radius: DEFAULT_RADIUS_METERS,
         stroke: {
             color: '#08B21F',
             weight: 2,
@@ -54,7 +57,11 @@ angular.module('uberCodingChallengeApp')
     };
 
     //Start initial search
-    $scope.searchPoint = $scope.map.center;
+    $scope.searchPoint = {
+      longitude: $scope.map.center.longitude,
+      latitude: $scope.map.center.latitude,
+      radius: DEFAULT_RADIUS_METERS
+    };
     $scope.foodTrucks = FoodTruck.search($scope.searchPoint);
 
     //Marker click handler
