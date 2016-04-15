@@ -23,6 +23,6 @@ var FoodTruckSchema = new Schema({
 	daysHours: String
 });
 
-FoodTruckSchema.index({ loc: '2dsphere' });
+FoodTruckSchema.index({ loc: '2dsphere' }, {sparse: true});
 
 module.exports = mongoose.model('FoodTruck', FoodTruckSchema);

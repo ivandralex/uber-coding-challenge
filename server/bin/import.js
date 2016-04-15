@@ -5,7 +5,7 @@ var config = require('../config/environment');
 var FoodTruck = require('../api/foodtruck/foodtruck.model');
 
 exports.import = function(){
-
+	importPermits();
 }
 
 function importPermits(){
@@ -16,6 +16,7 @@ function importPermits(){
 			var permit;
 			var permits = JSON.parse(body);
 
+			var loc;
 			var foodTrucks = [];
 
 			for(var i = 0, pLength = permits.length; i < pLength; i++){
@@ -25,13 +26,15 @@ function importPermits(){
 					continue;
 				}
 
-                var loc;
-
                 if(permit.longitude && permit.latitude){
                     loc = {
                         type: 'Point',
                         coordinates: [Number(permit.longitude), Number(permit.latitude)]
                     };
+                }
+                else{
+                	//TODO: add to queue
+                	loc = undefined;
                 }
 
                 var foodItem;
