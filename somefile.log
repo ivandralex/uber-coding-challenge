@@ -1,0 +1,12 @@
+{"level":"info","message":"Express server listening on 9000, in development mode","timestamp":"2016-04-17T15:16:57.396Z"}
+{"level":"info","message":"Initialize DAL","timestamp":"2016-04-17T15:18:50.307Z"}
+{"level":"info","message":"Express server listening on 9000, in development mode","timestamp":"2016-04-17T15:18:50.383Z"}
+{"level":"info","message":"Initialize DAL","timestamp":"2016-04-17T15:19:24.935Z"}
+{"level":"info","message":"Express server listening on 9000, in development mode","timestamp":"2016-04-17T15:19:25.017Z"}
+{"level":"info","message":"Find trucks by location -122.42959 37.7832003 0.0002522680212105823","timestamp":"2016-04-17T15:19:27.170Z"}
+{"level":"info","message":"Initialize DAL","timestamp":"2016-04-17T15:19:52.809Z"}
+{"level":"info","message":"Express server listening on 9000, in development mode","timestamp":"2016-04-17T15:19:52.884Z"}
+{"level":"info","message":"Find trucks by location -122.42959 37.7832003 0.0002522680212105823","timestamp":"2016-04-17T15:19:55.117Z"}
+{"level":"info","message":"Initialize DAL","timestamp":"2016-04-17T15:21:13.055Z"}
+{"level":"info","message":"Express server listening on 9000, in development mode","timestamp":"2016-04-17T15:21:13.130Z"}
+{"level":"info","message":"Find trucks by location -122.42959 37.7832003 0.0002522680212105823","timestamp":"2016-04-17T15:21:15.272Z"}

@@ -4,32 +4,29 @@
 
 'use strict';
 
-// Set default node environment to development
+//Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express = require('express');
-var mongoose = require('mongoose');
 var config = require('./config/environment');
-var importTool = require('./bin/import');
+var dal = require('./dal');
+var log = require('./logger').logger;
 
-// Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', function(err) {
-	console.error('MongoDB connection error: ' + err);
-	process.exit(-1);
-	}
-);
+log.info('Starting app in', process.env.NODE_ENV, 'environment');
 
-// Setup server
+//Initialize database abstraction layer
+dal.init();
+
+//Setup server
 var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
-// Start server
+//Start server
 server.listen(config.port, config.ip, function () {
-  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+  log.info('Express server listening on %d, in %s mode', config.port, app.get('env'));
 });
 
-// Expose app
+//Expose app
 exports = module.exports = app;

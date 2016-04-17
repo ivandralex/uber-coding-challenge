@@ -32,6 +32,9 @@ var all = {
       }
     }
   },
+  rabbit: {
+    url: 'amqp://localhost'
+  },
   external: {
     foodTrucksEndpoint: 'https://data.sfgov.org/resource/rqzj-sfat.json'
   }

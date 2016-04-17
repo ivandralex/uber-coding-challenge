@@ -1,7 +1,9 @@
 'use strict';
 
+var log = require('../../logger').logger;
+
 var _ = require('lodash');
-var FoodTruck = require('./foodtruck.model');
+var dal = require('../../dal');
 
 // Performs search
 exports.search = function(req, res){
@@ -16,21 +18,13 @@ exports.search = function(req, res){
 
   var longitude = Number(req.body.longitude);
   var latitude = Number(req.body.latitude);
-  //In order to convert meters to radians we divide them by equatorial radius of the Earth
-  var radius = Number(req.body.radius)/6378137;
+  var radius = Number(req.body.radius);
 
-  //Find trucks located winthin a sphere with specified center and radius 
-  var query = {
-    loc: {
-      $geoWithin: {
-        $centerSphere: [[longitude, latitude], radius]
-      }
-    }
-  };
+  log.info('Find trucks by location', longitude, latitude, radius);
 
-  FoodTruck.find(query, function(err, foodTrucks){
+  dal.findFoodTrucksByLocation(longitude, latitude, radius, function(err, foodTrucks){
     if(err){
-      console.log(err)
+      log.error('Trucks searh error:', err);
       return handleError(res, err);
     }
     if(!foodTrucks){
