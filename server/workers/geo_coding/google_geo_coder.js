@@ -17,7 +17,6 @@ exports.geoCodeTruck = function(truck){
 		if(response.status !== 'OK'){
 			log.error('Google geo coding API responded with status %s and error message: %s', response.status, response.error_message);
 
-			//TODO: error handling
 			throw response.status;
 		}
 
