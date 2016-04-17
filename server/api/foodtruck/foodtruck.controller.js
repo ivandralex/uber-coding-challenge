@@ -13,7 +13,7 @@ exports.search = function(req, res){
 
   //TODO: more strict validation
   if(!req.body.latitude || !req.body.longitude || !req.body.radius){
-      return res.status(400).json({description: 'longitude and latitude are mandatory parameters'});
+      return res.status(400).json({description: 'longitude, latitude and radius are mandatory parameters'});
   }
 
   var longitude = Number(req.body.longitude);
@@ -22,17 +22,18 @@ exports.search = function(req, res){
 
   log.info('Find trucks by location', longitude, latitude, radius);
 
-  dal.findFoodTrucksByLocation(longitude, latitude, radius, function(err, foodTrucks){
-    if(err){
-      log.error('Trucks searh error:', err);
-      return handleError(res, err);
-    }
+  dal.findFoodTrucksByLocation(longitude, latitude, radius)
+  .then(function(foodTrucks){
     if(!foodTrucks){
       return res.status(404).json({description: 'Not found'});
     }
 
     return res.status(200).json(foodTrucks);
-  });
+  })
+  .catch(function(err){
+    log.error('Trucks search error:', err);
+    return handleError(res, err);
+  })
 };
 
 exports.searchMethodNotAllowed = function(req, res){

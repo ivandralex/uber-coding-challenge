@@ -10,13 +10,14 @@ var mongoose = require('mongoose');
 var FoodTruck = require('./mongo/foodtruck.model');
 
 //RabbitMQ
+var RabbitTaskQueue = require('./rabbit/task_queue').RabbitTaskQueue;
 
 /**
  * DAL initialization method.
  */
 exports.init = function(){
     log.info('Initializing DAL');
-    // Connect to database
+    // Connect to Mongo
     mongoose.connect(config.mongo.uri, config.mongo.options);
     mongoose.connection.on('error', function(err){
             log.error('MongoDB connection error: ' + err);
@@ -31,7 +32,7 @@ exports.init = function(){
  * @param {number} logitude Point latitude.
  * @param {number} radius Radius in meters.
  */
-exports.findFoodTrucksByLocation = function(longitude, latitude, radius, callback){
+exports.findFoodTrucksByLocation = function(longitude, latitude, radius){
     //In order to convert meters to radians we divide them by equatorial radius of the Earth
     radius = Number(radius)/6378137;
 
@@ -44,17 +45,19 @@ exports.findFoodTrucksByLocation = function(longitude, latitude, radius, callbac
         }
     };
 
-    FoodTruck.find(query, function(err, foodTrucks){
-        if(err){
-            log.error('Failed to find food trucks by location', err);
-            callback('FIND_TRUCK_ERROR');
-            return;
-        }
+    return FoodTruck.find(query);
+}
 
-        if(!foodTrucks){
-            return callback();
-        }
+/**
+ * Task queue factory method. Returns promise of queue connected to specified channel.
+ * @param {string} channelId Channel identifier.
+ */
+exports.getTaskQueue = function(channelId){
+    //Create and initialize RabbitTaskQueue
+    var queue = new RabbitTaskQueue();
 
-        callback(undefined, foodTrucks);
+    return queue.connect(config.rabbit.url, channelId)
+    .then(function(){
+        return queue;
     });
 }

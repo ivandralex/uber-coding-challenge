@@ -32,9 +32,11 @@ var all = {
       }
     }
   },
+  //RabbitMQ connection settings
   rabbit: {
     url: 'amqp://localhost'
   },
+  //Config for external services
   external: {
     foodTrucksEndpoint: 'https://data.sfgov.org/resource/rqzj-sfat.json'
   }
