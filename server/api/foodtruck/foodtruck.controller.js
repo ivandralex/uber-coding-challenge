@@ -11,16 +11,19 @@ exports.search = function(req, res){
     return res.status(405).json({description: 'Method not allowed'});
   }
 
-  log.info('BODY:', req.body);
-
-  //TODO: more strict validation
-  if(!req.body.latitude || !req.body.longitude || !req.body.radius){
-      return res.status(400).json({description: 'longitude, latitude and radius are mandatory parameters'});
+  //Check if parameters are numbers
+  if(typeof req.body.latitude !== 'number' || typeof req.body.longitude !== 'number' || typeof req.body.radius !== 'number'){
+    return res.status(400).json({description: 'longitude, latitude and radius must be numbers'});
   }
 
-  var longitude = Number(req.body.longitude);
-  var latitude = Number(req.body.latitude);
-  var radius = Number(req.body.radius);
+  var longitude = req.body.longitude;
+  var latitude = req.body.latitude;
+  var radius = req.body.radius;
+
+  //Check bounds
+  if(latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180 || radius <= 0){
+    return res.status(400).json({description: 'Parameters are out of bounds'});
+  }
 
   log.info('Find trucks by location', longitude, latitude, radius);
 
