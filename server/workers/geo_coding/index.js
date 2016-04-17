@@ -7,7 +7,7 @@ var log = require('../../logger').logger;
 var config = require('../../config/environment');
 var dal = require('../../dal');
 
-var geoCoder = require('./google_geo_coder');
+var geoCoder = require('./truck_geo_coder');
 
 log.info('Starting geocoding worker');
 
