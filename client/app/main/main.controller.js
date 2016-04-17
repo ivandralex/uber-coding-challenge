@@ -8,8 +8,8 @@ angular.module('uberCodingChallengeApp')
     $scope.map = {
       //Default center of the map
       center: {
-        longitude: -122.42959,
-        latitude: 37.7832003
+        longitude: -122.42,
+        latitude: 37.78
       },
       zoom: 14,
       //Hide standard controls irrelevant for the app
