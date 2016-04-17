@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uberCodingChallengeApp')
-  .controller('MainCtrl', function ($scope, FoodTruck, uiGmapGoogleMapApi) {
+  .controller('MainCtrl', function ($scope, FoodTruck) {
     //Default radius is 1 mile or approximately 20 minutes of walking
     var DEFAULT_RADIUS_METERS = 1609;
     //Map settings
@@ -21,17 +21,17 @@ angular.module('uberCodingChallengeApp')
       //Custom style to hide standard poi and transit signs on the map
       styles: [
           {
-              featureType: "poi",
-              elementType: "labels",
+              featureType: 'poi',
+              elementType: 'labels',
               stylers: [
-                    { visibility: "off" }
+                    { visibility: 'off' }
               ]
           },
           {
-              featureType: "transit",
-              elementType: "labels",
+              featureType: 'transit',
+              elementType: 'labels',
               stylers: [
-                    { visibility: "off" }
+                    { visibility: 'off' }
               ]
           }
       ],
@@ -75,5 +75,5 @@ angular.module('uberCodingChallengeApp')
     $scope.onTruckClick = function(event, eventName, model){
       $scope.currentTruck = model;
       $scope.truckInfoVisible = true;
-    }
+    };
   });
