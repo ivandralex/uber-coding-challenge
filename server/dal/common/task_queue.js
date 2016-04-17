@@ -16,7 +16,7 @@ TaskQueue.prototype.enqueue = function(messageStr){
 	throw 'Not implemented!';
 }
 
-TaskQueue.prototype.onJob = function(jobHandler){
+TaskQueue.prototype.dequeue = function(jobHandler){
 	throw 'Not implemented!';
 }
 

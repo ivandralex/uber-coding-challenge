@@ -6,7 +6,7 @@ var util = require('util');
 var amqp = require('amqplib');
 
 /**
- * Task queue. Provides 
+ * Task queue
  */
 function RabbitTaskQueue(){
 	TaskQueue.call(this);
@@ -26,7 +26,10 @@ RabbitTaskQueue.prototype.connect = function(connectString, channelId){
 		.then(function(ch){
 			self.channel = ch;
 
-			log.info('Connected to', channelId, 'on', connectString);
+			//Handle one job at a time
+			ch.prefetch(1);
+
+			log.info('Connected to \'%s\' channel on %s', channelId, connectString);
 
 			return ch.assertQueue(channelId, {durable: true});
 		});
@@ -43,14 +46,21 @@ RabbitTaskQueue.prototype.enqueue = function(messageStr){
 	this.channel.sendToQueue(this.channelId, new Buffer(messageStr), {deliveryMode: true});  
 }
 
-RabbitTaskQueue.prototype.onJob = function(jobHandler){
+RabbitTaskQueue.prototype.dequeue = function(jobHandler){
 	var self = this;
 	this.channel.consume(this.channelId, function(msg){
 		var messageBody = msg.content.toString();
 
+		log.debug('New job', messageBody);
+
 		jobHandler(messageBody, function(err){
 			if(!err){
+				log.debug('Job acknowledged', messageBody);
 				self.channel.ack(msg);
+			}
+			else{
+				log.debug('nack job', messageBody);
+				self.channel.nack(msg);
 			}
 		});
 	}, {noAck: false});

@@ -38,7 +38,12 @@ var all = {
   },
   //Config for external services
   external: {
-    foodTrucksEndpoint: 'https://data.sfgov.org/resource/rqzj-sfat.json'
+    foodTrucksEndpoint: 'https://data.sfgov.org/resource/rqzj-sfat.json',
+    geoCodingEndpoint: 'https://maps.googleapis.com/maps/api/geocode/json?address=%s'
+  },
+  workers: {
+    geoCodingChannelId: 'geo_coding',
+    dataImporterChannelId: 'open_data_importer'
   }
 };
 

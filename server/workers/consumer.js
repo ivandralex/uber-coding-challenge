@@ -7,11 +7,11 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('task_queue')
+dal.getTaskQueue('geo_coding')
 .then(function(q){
   console.log('Got queue');
 
-  q.onJob(function(msg, ack){
+  q.dequeue(function(msg, ack){
     console.log('Processing', msg);
 
     ack();

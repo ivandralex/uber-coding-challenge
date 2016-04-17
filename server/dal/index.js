@@ -49,6 +49,24 @@ exports.findFoodTrucksByLocation = function(longitude, latitude, radius){
 }
 
 /**
+ * Finds food truck by id.
+ * @param {string} truckId Truck identifier.
+ * @param {number} logitude Point latitude.
+ * @param {number} radius Radius in meters.
+ */
+exports.findFoodTruckById = function(truckId){
+    return FoodTruck.findById(truckId);
+}
+
+/**
+ * Saves food truck changes.
+ * @param {FoodTruck} truck Truck to be saved.
+ */
+exports.saveFoodTruck = function(truck){
+    return truck.save();
+}
+
+/**
  * Task queue factory method. Returns promise of queue connected to specified channel.
  * @param {string} channelId Channel identifier.
  */

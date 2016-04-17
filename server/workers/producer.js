@@ -7,16 +7,13 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('task_queue')
+dal.getTaskQueue('geo_coding')
 .then(function(q){
   console.log('Got queue');
 
-  var msg = 0;
-
   setInterval(function(){
-    msg++;
-    q.enqueue(msg.toString());
-  }, 10);
+    q.enqueue('5711044459112c305625d9aa');
+  }, 5000);
 })
 .catch(function(err){
   console.log('Error:', err);
