@@ -11,6 +11,8 @@ exports.search = function(req, res){
     return res.status(405).json({description: 'Method not allowed'});
   }
 
+  log.info('BODY:', req.body);
+
   //TODO: more strict validation
   if(!req.body.latitude || !req.body.longitude || !req.body.radius){
       return res.status(400).json({description: 'longitude, latitude and radius are mandatory parameters'});
