@@ -76,7 +76,7 @@ Output fields:
 * title - title of food truck
 * address - address of food truck
 * foodItems - list of food items offered at this food truck
-* loc - location of the food truck GeoJSON point
+* loc - location of the food truck (GeoJSON point)
 * _id - internal food truck identifier
 * externalObjectId - identifier of the food truck from SF OpenData dataset
 * daysHours - food truck operation hours
