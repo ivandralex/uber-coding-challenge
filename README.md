@@ -50,3 +50,33 @@ Request parameters:
 * longitude - longitude of the search location in degrees (valid range [-180; 180]
 * latitude - latitude of the search location in degrees (valid range [-90; 90]
 * radius - radius of the search neighbourhood in meters
+
+Output example:
+
+```
+#!javascript
+
+[{
+_id: ""
+address: "355 07TH ST"
+daysHours: "Mo-Fr:8AM-9AM"
+externalObjectId: "765882"
+foodItems: ["cold truck", "packaged sandwiches", "pitas", "breakfast", "cold and hot drinks", "snacks"]
+loc: {type: "Point", coordinates: [-122.406934051626, 37.7763814259936]}
+locationDescription: "07TH ST: CLEVELAND ST to HARRISON ST (314 - 399)"
+permitStatus: "APPROVED"
+schedule: "http://bsm.sfdpw.org/PermitsTracker/reports/report.aspx?title=schedule&report=rptSchedule&params=permit=16MFF-0069&ExportPDF=1&Filename=16MFF-0069_schedule.pdf"
+title: "Munch A Bunch"
+type: "Truck"
+}, ... ]
+```
+
+Output fields:
+
+* title - title of food truck
+* address - address of food truck
+* foodItems - list of food items offered at this food truck
+* loc - location of the food truck GeoJSON point
+* _id - internal food truck identifier
+* externalObjectId - identifier of the food truck from SF OpenData dataset
+* daysHours - food truck operation hours
