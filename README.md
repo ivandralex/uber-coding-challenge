@@ -46,6 +46,7 @@ Supported HTTP verbs:
 POST /api/foodtrucks/search
 ```
 Request parameters:
+
 * longitude - longitude of the search location in degrees (valid range [-180; 180]
 * latitude - latitude of the search location in degrees (valid range [-90; 90]
 * radius - radius of the search neighbourhood in meters
