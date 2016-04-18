@@ -17,6 +17,8 @@ Client-side:
 Server-side:
 
 * Node.js
-* MongoDB
+* MongoDB (with Mongoose ORM)
 * RabbitMQ
 * ExpessJS
+
+I used Yeoman scaffolding tool to create template for my app. You can see generated code in the first commit of this repository. Most of the generated code has been modified. As of the last commit generated code can be found mostly in server/config, server/routes.js, client/app/app.js, Gruntfile.js
