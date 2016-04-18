@@ -46,30 +46,43 @@ function handleNextPage(offset, limit){
 	return trucksLoader.load(offset, limit)
 	.then(analyzePage)
 	.then(storePage)
-	.then(function(foodTrucks){
-		if(foodTrucks.length !== 0){
+	.then(function(result){
+		if(!result.exhausted){
 			return handleNextPage(offset + limit, limit);	
 		}
 	});
 }
 
 function analyzePage(foodTrucks){
+	var result = {
+		exhausted: foodTrucks.length === 0,
+		filtered: []
+	};
 	var foodTruck;
 
 	for(var i = 0, fLength = foodTrucks.length; i < fLength; i++){
 		foodTruck = foodTrucks[i];
 
+		//We are not interested in trucks with unapproved status
+		if(foodTruck.permitStatus !== 'APPROVED'){
+			continue;
+		}
+
 		if(!foodTruck.loc){
 			log.debug('Need to geocode', foodTruck.address);
 		}
+
+		result.filtered.push(foodTruck);
 	}
 
-	return foodTrucks;
+	log.debug('FOOD TRUCKS ANALYZED', result.exhausted, result.filtered.length);
+
+	return result;
 }
 
-function storePage(foodTrucks){
-	log.debug('FOOD TRUCLS 2', foodTrucks.length)
-	return foodTrucks;
+function storePage(result){
+	log.debug('FOOD TRUCKS 2', result.filtered.length)
+	return result;
 	/*
 	FoodTruck.insertMany(foodTrucks, function(err, res){
 		if(err){

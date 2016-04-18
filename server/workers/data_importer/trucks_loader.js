@@ -62,7 +62,8 @@ exports.load = function(offset, limit){
 				loc: loc,
 				type: permit.facilitytype,
 				permitExpirationDate: permit.expirationDate,
-				daysHours: permit.dayshours
+				daysHours: permit.dayshours,
+				permitStatus: permit.status
 			});
 		}
 
