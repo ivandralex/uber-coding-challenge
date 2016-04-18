@@ -89,3 +89,7 @@ Output fields:
 * _id - internal food truck identifier
 * externalObjectId - identifier of the food truck from SF OpenData dataset
 * daysHours - food truck operation hours
+
+### Online version ###
+
+Application available on http://uber.adville.ru/
