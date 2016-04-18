@@ -1,5 +1,5 @@
 /**
- * Base task queue. 
+ * Base task queue.
  */
 function TaskQueue(){
 	this.channels = {};

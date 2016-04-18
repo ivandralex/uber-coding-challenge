@@ -18,10 +18,10 @@ dal.init();
 dal.getTaskQueue()
 .then(function(queue){
 	//Setup job handler
-  	queue.dequeue(config.workers.geoCoding.channelId, handleJob);
+	queue.dequeue(config.workers.geoCoding.channelId, handleJob);
 })
 .catch(function(err){
-  log.error('Error:', err);
+	log.error('Error:', err);
 });
 
 function handleJob(truckId, callback){
