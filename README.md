@@ -57,7 +57,11 @@ Workers are implemented in the form of independent applications. I use task queu
 **Data Import worker** (instead of creating independent mechanism) because percentage of food trucks data entities requiring geocoding is reasonably small (about 10%) and it's more efficient to create this job from 
 **Data Import worker** though such solution may impose architectural risks and should be reevaluated in later versions of the app.
 
-**Geo Coding worker** handles geocoding jobs contained in task queue. It's implementing geocoding with use of Google Maps API. Though it's recommended by Google to use combination of client-side and server-side geocoding it's not suitable for our application. Using serverside-only geocoding imposes a risk of reaching Google Maps API limit (2500 requests from IP). Having independent workers we can scale them horizontally and distribute jobs among many workers so the limit will not be exceeded. 
+**Geo Coding worker** handles geocoding jobs contained in task queue and updates food trucks entities in MongoDB with geo coordinates. It's implementing geocoding with use of Google Maps API. Though it's recommended by Google to use combination of client-side and server-side geocoding it's not suitable for our application. Using serverside-only geocoding imposes a risk of reaching Google Maps API limit (2500 requests from IP). Having independent workers we can scale them horizontally and distribute jobs among many workers so the limit will not be exceeded.
+
+Server-side application designed to be horizontally scalable. Though current version doesn't have load balancer that would distribute requests among several **Web server apps** it can be easily introduced into architecture without any change to business logic. I consider to implement load balancer with use of Uber's Ringpop library in the next version of the app.
+
+Also all 4 components of the system use database abstraction layer to access data storages. DAL isolates business logic from API of particular database drivers and gives us freedom to easily migrate our data storage to other databases in future.  
 
 
 ### Search API ###
