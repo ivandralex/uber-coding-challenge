@@ -11,6 +11,7 @@ var Promise = require('bluebird').Promise;
 //Mongo
 var mongoose = require('mongoose');
 var FoodTruck = require('./mongo/foodtruck.model');
+var ImportScheduleJournal = require('./mongo/import.model');
 
 //RabbitMQ
 var RabbitTaskQueue = require('./rabbit/task_queue').RabbitTaskQueue;
@@ -110,6 +111,21 @@ exports.saveFoodTrucks = function(foodTrucks){
         log.debug('Reading just persisted results', externalObjectIds.length);
         return FoodTruck.find({externalObjectId: {$in: externalObjectIds}});
     });
+}
+
+/**
+ * Get last import journal record.
+ */
+exports.getLastImportJournalRecord = function(){
+    return ImportScheduleJournal.findOne().sort({_id: -1});
+}
+
+/**
+ * Save import journal record.
+ */
+exports.saveImportJournalRecord = function(data){
+    var record = new ImportScheduleJournal(data);
+    return record.save();
 }
 
 /**

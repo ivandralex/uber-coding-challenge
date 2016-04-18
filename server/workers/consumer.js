@@ -11,7 +11,7 @@ dal.getTaskQueue()
 .then(function(q){
   console.log('Got queue');
 
-  q.dequeue('geo_coding', function(msg, ack){
+  q.dequeue('open_data_import', function(msg, ack){
     console.log('Processing', msg);
 
     ack();

@@ -54,10 +54,10 @@ function getChannel(channelId){
 }
 
 RabbitTaskQueue.prototype.enqueue = function(channelId, messageStr){
-	getChannel.call(this, channelId)
+	return getChannel.call(this, channelId)
 	.then(function(channel){
 		log.debug('Sending to queue', channelId, messageStr);
-		channel.sendToQueue(channelId, new Buffer(messageStr), {deliveryMode: true});
+		return channel.sendToQueue(channelId, new Buffer(messageStr), {deliveryMode: true});
 	});
 }
 
