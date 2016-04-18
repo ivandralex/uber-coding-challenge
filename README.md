@@ -57,17 +57,13 @@ Output example:
 #!javascript
 
 [{
-_id: ""
-address: "355 07TH ST"
-daysHours: "Mo-Fr:8AM-9AM"
-externalObjectId: "765882"
-foodItems: ["cold truck", "packaged sandwiches", "pitas", "breakfast", "cold and hot drinks", "snacks"]
-loc: {type: "Point", coordinates: [-122.406934051626, 37.7763814259936]}
-locationDescription: "07TH ST: CLEVELAND ST to HARRISON ST (314 - 399)"
-permitStatus: "APPROVED"
-schedule: "http://example.org/schedule.pdf"
-title: "Munch A Bunch"
-type: "Truck"
+_id: "",
+address: "355 07TH ST",
+daysHours: "Mo-Fr:8AM-9AM",
+externalObjectId: "765882",
+foodItems: ["cold truck", "packaged sandwiches", "pitas", "breakfast", "cold and hot drinks", "snacks"],
+loc: {type: "Point", coordinates: [-122.406934051626, 37.7763814259936]},
+title: "Munch A Bunch",
 }, ... ]
 ```
 
