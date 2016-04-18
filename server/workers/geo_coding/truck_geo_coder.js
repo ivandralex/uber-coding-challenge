@@ -8,7 +8,7 @@ var request = require('request-promise');
 exports.geoCodeTruck = function(truck){
 	log.info('Geocode truck with address', truck.address);
 
-	var url = util.format(config.worker.geoCoding.url, encodeURIComponent(truck.address));
+	var url = util.format(config.workers.geoCoding.url, encodeURIComponent(truck.address));
 
 	return request(url)
 	.then(function(body){
@@ -17,7 +17,7 @@ exports.geoCodeTruck = function(truck){
 		if(response.status !== 'OK'){
 			log.error('Google geo coding API responded with status %s and error message: %s', response.status, response.error_message);
 
-			throw response.status;
+			throw new Error(response.status);
 		}
 
 		var location = response.results[0].geometry.location;

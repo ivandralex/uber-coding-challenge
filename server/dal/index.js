@@ -3,7 +3,10 @@
  */
 var log = require('../logger').logger;
 
+var _ = require('lodash');
 var config = require('../config/environment');
+
+var Promise = require('bluebird').Promise;
 
 //Mongo
 var mongoose = require('mongoose');
@@ -63,7 +66,50 @@ exports.findFoodTruckById = function(truckId){
  * @param {FoodTruck} truck Truck to be saved.
  */
 exports.saveFoodTruck = function(truck){
-    return truck.save();
+    return FoodTruck.findById(truck._id)
+    .then(function(persistedTruck){
+        var merged = _.merge(persistedTruck, truck);
+
+        return persistedTruck.save();
+    });
+    //return truck.save();
+}
+
+/**
+ * Bulk operation for saving food trucks.
+ * @param {FoodTruck} truck Truck to be saved.
+ */
+exports.saveFoodTrucks = function(foodTrucks){
+    if(foodTrucks.length === 0){
+        return Promise.resolve(foodTrucks);
+    }
+
+    var bulk = FoodTruck.collection.initializeUnorderedBulkOp();
+    
+    var foodTruck;
+    var externalObjectIds = [];
+
+    for(var i = 0, fLength = foodTrucks.length; i < fLength; i++){
+        foodTruck = foodTrucks[i];
+        externalObjectIds.push(foodTruck.externalObjectId);
+        bulk.find({externalObjectId: foodTruck.externalObjectId}).upsert().replaceOne(foodTruck);
+    }
+
+    //Not a good practise to use 'new Promise(...)'
+    return new Promise(function(resolve, reject){
+        bulk.execute(function(err, persisted){
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(persisted);    
+            }
+        });
+    })
+    .then(function(){
+        log.debug('Reading just persisted results', externalObjectIds.length);
+        return FoodTruck.find({externalObjectId: {$in: externalObjectIds}});
+    });
 }
 
 /**

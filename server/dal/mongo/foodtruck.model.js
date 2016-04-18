@@ -19,10 +19,10 @@ var FoodTruckSchema = new Schema({
 		required: false
 	},
 	type: String,
-	permitExpirationDate: String,
 	daysHours: String
 });
 
-FoodTruckSchema.index({ loc: '2dsphere' }, {sparse: true});
+FoodTruckSchema.index({loc: '2dsphere' }, {sparse: true});
+FoodTruckSchema.index({externalObjectId: 1}, {unique: true});
 
 module.exports = mongoose.model('FoodTruck', FoodTruckSchema);

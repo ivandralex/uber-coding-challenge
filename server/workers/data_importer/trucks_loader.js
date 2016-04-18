@@ -61,7 +61,6 @@ exports.load = function(offset, limit){
 				schedule: permit.schedule,
 				loc: loc,
 				type: permit.facilitytype,
-				permitExpirationDate: permit.expirationDate,
 				daysHours: permit.dayshours,
 				permitStatus: permit.status
 			});

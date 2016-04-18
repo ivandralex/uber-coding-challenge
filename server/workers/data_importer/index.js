@@ -14,9 +14,12 @@ log.info('Starting data importer worker');
 //Initialize DAL
 dal.init();
 
+var queue;
+
 //Get queue
 dal.getTaskQueue()
-.then(function(queue){
+.then(function(q){
+	queue = q;
 	//Setup job handler
   	queue.dequeue(config.workers.openData.channelId, handleJob);
 })
@@ -68,10 +71,6 @@ function analyzePage(foodTrucks){
 			continue;
 		}
 
-		if(!foodTruck.loc){
-			log.debug('Need to geocode', foodTruck.address);
-		}
-
 		result.filtered.push(foodTruck);
 	}
 
@@ -82,14 +81,22 @@ function analyzePage(foodTrucks){
 
 function storePage(result){
 	log.debug('FOOD TRUCKS 2', result.filtered.length)
-	return result;
-	/*
-	FoodTruck.insertMany(foodTrucks, function(err, res){
-		if(err){
-			console.log('Error inserting docs:', err);
+
+	return dal.saveFoodTrucks(result.filtered)
+	.then(function(foodTrucks){
+		var foodTruck;
+
+		log.debug('Stored', foodTrucks && foodTrucks.length);
+
+		for(var i = 0, fLength = foodTrucks.length; i < fLength; i++){
+			foodTruck = foodTrucks[i];
+
+			if(!foodTruck.loc || !foodTruck.loc.type){
+				log.debug('Need to geocode', foodTruck.address);
+				queue.enqueue(config.workers.geoCoding.channelId, foodTruck._id.toString());
+			}
 		}
 
-		console.log('Imported Food Trucks!!!');
+		return result;
 	});
-	*/
 }
