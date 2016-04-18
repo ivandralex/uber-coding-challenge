@@ -3,6 +3,8 @@ var log = require('../../logger').logger;
 var TaskQueue = require('../common/task_queue').TaskQueue;
 var util = require('util');
 
+var Promise = require('bluebird').Promise;
+
 var amqp = require('amqplib');
 
 /**
@@ -14,25 +16,13 @@ function RabbitTaskQueue(){
 
 util.inherits(RabbitTaskQueue, TaskQueue);
 
-RabbitTaskQueue.prototype.connect = function(connectString, channelId){
-	this.channelId = channelId;
-
+RabbitTaskQueue.prototype.connect = function(connectStr){
 	var self = this;
  	
-	return amqp.connect(connectString).then(function(conn){
+	return amqp.connect(connectStr).then(function(conn){
 		self.conn = conn;
 
-		return conn.createChannel()
-		.then(function(ch){
-			self.channel = ch;
-
-			//Handle one job at a time
-			ch.prefetch(1);
-
-			log.info('Connected to \'%s\' channel on %s', channelId, connectString);
-
-			return ch.assertQueue(channelId, {durable: true});
-		});
+		return self;
 	});
 }
 
@@ -42,28 +32,56 @@ RabbitTaskQueue.prototype.disconnect = function(){
 	}
 }
 
-RabbitTaskQueue.prototype.enqueue = function(messageStr){
-	this.channel.sendToQueue(this.channelId, new Buffer(messageStr), {deliveryMode: true});  
+function getChannel(channelId){
+	if(this.channels[channelId]){
+		return Promise.resolve(this.channels[channelId]);
+	}
+
+	var self = this;
+
+	return this.conn.createChannel()
+	.then(function(ch){
+		self.channels[channelId] = ch;
+
+		log.debug('Created channel')
+
+		//Handle one job at a time
+		ch.prefetch(1);
+		ch.assertQueue(channelId, {durable: true});
+
+		return ch;
+	});
 }
 
-RabbitTaskQueue.prototype.dequeue = function(jobHandler){
+RabbitTaskQueue.prototype.enqueue = function(channelId, messageStr){
+	getChannel.call(this, channelId)
+	.then(function(channel){
+		log.debug('Sending to queue')
+		channel.sendToQueue(channelId, new Buffer(messageStr), {deliveryMode: true});
+	});
+}
+
+RabbitTaskQueue.prototype.dequeue = function(channelId, jobHandler){
 	var self = this;
-	this.channel.consume(this.channelId, function(msg){
-		var messageBody = msg.content.toString();
+	getChannel.call(this, channelId)
+	.then(function(channel){
+		channel.consume(channelId, function(msg){
+			var messageBody = msg.content.toString();
 
-		log.debug('New job', messageBody);
+			log.debug('New job', messageBody);
 
-		jobHandler(messageBody, function(err){
-			if(!err){
-				log.debug('Job acknowledged', messageBody);
-				self.channel.ack(msg);
-			}
-			else{
-				log.debug('nack job', messageBody);
-				self.channel.nack(msg);
-			}
-		});
-	}, {noAck: false});
+			jobHandler(messageBody, function(err){
+				if(!err){
+					log.debug('Job acknowledged', messageBody);
+					self.channels[channelId].ack(msg);
+				}
+				else{
+					log.debug('nack job', messageBody);
+					self.channels[channelId].nack(msg);
+				}
+			});
+		}, {noAck: false});
+	});
 }
 
 exports.RabbitTaskQueue = RabbitTaskQueue;

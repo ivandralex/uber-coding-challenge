@@ -15,10 +15,10 @@ log.info('Starting geocoding worker');
 dal.init();
 
 //Get queue
-dal.getTaskQueue(config.workers.geoCoding.channelId)
+dal.getTaskQueue()
 .then(function(queue){
 	//Setup job handler
-  	queue.dequeue(handleJob);
+  	queue.dequeue(config.workers.geoCoding.channelId, handleJob);
 })
 .catch(function(err){
   log.error('Error:', err);

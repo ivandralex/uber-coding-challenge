@@ -67,15 +67,11 @@ exports.saveFoodTruck = function(truck){
 }
 
 /**
- * Task queue factory method. Returns promise of queue connected to specified channel.
- * @param {string} channelId Channel identifier.
+ * Task queue factory method.
  */
-exports.getTaskQueue = function(channelId){
+exports.getTaskQueue = function(){
     //Create and initialize RabbitTaskQueue
     var queue = new RabbitTaskQueue();
 
-    return queue.connect(config.rabbit.url, channelId)
-    .then(function(){
-        return queue;
-    });
+    return queue.connect(config.rabbit.url)
 }

@@ -15,10 +15,10 @@ log.info('Starting data importer worker');
 dal.init();
 
 //Get queue
-dal.getTaskQueue(config.workers.openData.channelId)
+dal.getTaskQueue()
 .then(function(queue){
 	//Setup job handler
-  	queue.dequeue(handleJob);
+  	queue.dequeue(config.workers.openData.channelId, handleJob);
 })
 .catch(function(err){
   log.error('Error:', err);

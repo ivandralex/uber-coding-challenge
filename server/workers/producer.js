@@ -7,13 +7,13 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('open_data_import')
+dal.getTaskQueue()
 .then(function(q){
   console.log('Got queue');
 
   setInterval(function(){
-    q.enqueue('task');
-  }, 5000);
+    q.enqueue('open_data_import', 'task');
+  }, 1000);
 })
 .catch(function(err){
   console.log('Error:', err);

@@ -7,11 +7,11 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('open_data_import')
+dal.getTaskQueue()
 .then(function(q){
   console.log('Got queue');
 
-  q.dequeue(function(msg, ack){
+  q.dequeue('open_data_import', function(msg, ack){
     console.log('Processing', msg);
 
     ack();
