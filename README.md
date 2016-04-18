@@ -65,7 +65,7 @@ foodItems: ["cold truck", "packaged sandwiches", "pitas", "breakfast", "cold and
 loc: {type: "Point", coordinates: [-122.406934051626, 37.7763814259936]}
 locationDescription: "07TH ST: CLEVELAND ST to HARRISON ST (314 - 399)"
 permitStatus: "APPROVED"
-schedule: "http://bsm.sfdpw.org/PermitsTracker/reports/report.aspx?title=schedule&report=rptSchedule&params=permit=16MFF-0069&ExportPDF=1&Filename=16MFF-0069_schedule.pdf"
+schedule: "http://example.org/schedule.pdf"
 title: "Munch A Bunch"
 type: "Truck"
 }, ... ]
