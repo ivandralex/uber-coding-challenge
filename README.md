@@ -42,10 +42,23 @@ SPA built with Angular, sends requests to Search API, uses Google Maps JS API to
 
 Server-side application consists of 4 main components:
 
-* Web server app - provides Search API to client applications
-* Data Import worker - handles data import job, creates Geo Coding jobs for newly imported data
-* Scheduler - creates data import job
-* Geo Coding worker - handles geo coding jobs
+* **Web server app** - provides Search API to client applications
+* **Data Import worker** - handles data import job, creates Geo Coding jobs for newly imported data
+* **Scheduler** - creates data import job
+* **Geo Coding worker** - handles geo coding jobs
+
+I've selected MongoDB as a primary database for my app. I use it to store food trucks data in documents. I use geospatial indexes to perform search of food trucks by geo location. We rely on external data source and its data format may change at any time and we may face data migration tasks very often. Schema-less storage is more suitable solution for this scenario.
+
+**Web server app** knows nothing about Open Data and geo coding. It serves data from MongoDB and provides Search API (described below) to client applications.
+
+Workers are implemented in the form of independent applications. I use task queue implemented with RabbitMQ to manage worker jobs. Data Import job is created **Scheduler**. **Scheduler** is a separate application having single responsibility - to create Data Import job and put it into task queue once a day. It uses MongoDB to store data import operations journal.
+
+**Data Import worker** downloads food trucks data using Open Data API and stores it in MongoDB. Also **Data Import worker** creates jobs for **Geo Coding worker**. I decided to grant this responsibility to 
+**Data Import worker** (instead of creating independent mechanism) because percentage of food trucks data entities requiring geocoding is reasonably small (about 10%) and it's more efficient to create this job from 
+**Data Import worker** though such solution may impose architectural risks and should be reevaluated in later versions of the app.
+
+**Geo Coding worker** handles geocoding jobs contained in task queue. It's implementing geocoding with use of Google Maps API. Though it's recommended by Google to use combination of client-side and server-side geocoding it's not suitable for our application. Using serverside-only geocoding imposes a risk of reaching Google Maps API limit (2500 requests from IP). Having independent workers we can scale them horizontally and distribute jobs among many workers so the limit will not be exceeded. 
+
 
 ### Search API ###
 
@@ -62,7 +75,7 @@ Request parameters:
 
 * longitude - longitude of the search location in degrees (valid range [-180; 180]
 * latitude - latitude of the search location in degrees (valid range [-90; 90]
-* radius - radius of the search neighbourhood in meters
+* radius - radius of the search neighborhood in meters
 
 Output example:
 
@@ -89,6 +102,10 @@ Output fields:
 * _id - internal food truck identifier
 * externalObjectId - identifier of the food truck from SF OpenData dataset
 * daysHours - food truck operation hours
+
+### Features ###
+
+
 
 ### Online version ###
 
