@@ -20,8 +20,6 @@ function checkLastImport(){
 			var sinceLastImport = (new Date()).getTime() - record.time.getTime();
 			var diff = config.workers.openData.updatePeriodMs - sinceLastImport;
 
-			log.debug('Since last import', sinceLastImport, diff)
-
 			if(diff > 0){
 				log.info('Will start new import in %s ms', diff);
 

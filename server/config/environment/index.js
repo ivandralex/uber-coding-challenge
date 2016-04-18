@@ -45,7 +45,7 @@ var all = {
       url: 'https://data.sfgov.org/resource/6a9r-agq8.json?$limit=%s&$offset=%s',
       channelId: 'open_data_import',
       pageLimit: 100,
-      updatePeriodMs: 60000
+      updatePeriodMs: 86400000
     }
   }
 };
