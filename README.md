@@ -28,17 +28,24 @@ I used Yeoman scaffolding tool to create template for my app. You can see genera
 
 Food Trucks app uses external data source. SF OpenData provides its own API. It's not reliable to use external API per-request because it imposes serious technical risks (if OpenData website goes down we'll be unable to serve content, we can't control OpenData API performance). We need to store a copy of the OpenData's dataset and perform scheduled synchronization. Our dataset is updated daily.
 
-We should provide user with food truck around specified location. We need to have geo coordinates for every food truck. As I found out some geo coordinates are available not for all food trucks, but all of them have address field specified. We need to augment food trucks data with coordinates using geocoding based on food truck address. Also we want to have efficient way to query database for food trucks around specified location so we need geo spatial indexes support. 
+We should provide user with food truck around specified location. We need to have geo coordinates for every food truck. As I found out geo coordinates are available not for all food trucks, but all of them have address field specified. We need to augment food trucks data with coordinates using geocoding based on food truck address. Also we want to have efficient way to query database for food trucks around specified location so we need geospatial indexes support in database.
+
+Thus we need to perform 2 type of tasks: scheduled data import using OpenData API, geocoding of food trucks.
 
 ### Architecture overview ###
 
 #### Client-side ####
 
-SPA built with Angular, sends requests to Search API, uses Google Maps JS API to render map.
+SPA built with Angular, sends requests to Search API, uses Google Maps JS API to render map and food trucks information.
 
 #### Server-side ####
 
-Server-side application consists of 4 main components
+Server-side application consists of 4 main components:
+
+* Web server app - provides Search API to client applications
+* Data Import worker - handles data import job, creates Geo Coding jobs for newly imported data
+* Scheduler - creates data import job
+* Geo Coding worker - handles geo coding jobs
 
 ### Search API ###
 
