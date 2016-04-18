@@ -8,7 +8,7 @@ var request = require('request-promise');
 exports.geoCodeTruck = function(truck){
 	log.info('Geocode truck with address', truck.address);
 
-	var url = util.format(config.external.geoCodingEndpoint, encodeURIComponent(truck.address));
+	var url = util.format(config.worker.geoCoding.url, encodeURIComponent(truck.address));
 
 	return request(url)
 	.then(function(body){

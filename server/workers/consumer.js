@@ -7,7 +7,7 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('geo_coding')
+dal.getTaskQueue('open_data_import')
 .then(function(q){
   console.log('Got queue');
 

@@ -36,14 +36,16 @@ var all = {
   rabbit: {
     url: 'amqp://localhost'
   },
-  //Config for external services
-  external: {
-    foodTrucksEndpoint: 'https://data.sfgov.org/resource/rqzj-sfat.json',
-    geoCodingEndpoint: 'https://maps.googleapis.com/maps/api/geocode/json?address=%s'
-  },
   workers: {
-    geoCodingChannelId: 'geo_coding',
-    dataImporterChannelId: 'open_data_importer'
+    geoCoding: {
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%s',
+      channelId: 'geo_coding'
+    },
+    openData: {
+      url: 'https://data.sfgov.org/resource/6a9r-agq8.json?$limit=%s&$offset=%s',
+      channelId: 'open_data_import',
+      pageLimit: 100
+    }
   }
 };
 

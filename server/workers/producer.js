@@ -7,12 +7,12 @@ var dal = require('../dal');
 
 dal.init();
 
-dal.getTaskQueue('geo_coding')
+dal.getTaskQueue('open_data_import')
 .then(function(q){
   console.log('Got queue');
 
   setInterval(function(){
-    q.enqueue('5711044459112c305625d9aa');
+    q.enqueue('task');
   }, 5000);
 })
 .catch(function(err){
