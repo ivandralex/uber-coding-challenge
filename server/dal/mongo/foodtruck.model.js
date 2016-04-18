@@ -19,7 +19,9 @@ var FoodTruckSchema = new Schema({
 		required: false
 	},
 	type: String,
-	daysHours: String
+	daysHours: String,
+	geoCodeStatus: {type: 'String', required: false},
+	cantGeoCode: {type: Boolean, required: false}
 });
 
 FoodTruckSchema.index({loc: '2dsphere' }, {sparse: true});
