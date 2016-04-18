@@ -3,7 +3,7 @@ var log = require('../../logger').logger;
 var TaskQueue = require('../common/task_queue').TaskQueue;
 var util = require('util');
 
-var Promise = require('bluebird').Promise;
+var promise = require('bluebird').Promise;
 
 var amqp = require('amqplib');
 
@@ -18,7 +18,7 @@ util.inherits(RabbitTaskQueue, TaskQueue);
 
 RabbitTaskQueue.prototype.connect = function(connectStr){
 	var self = this;
- 	
+ 
 	return amqp.connect(connectStr).then(function(conn){
 		self.conn = conn;
 
@@ -34,7 +34,7 @@ RabbitTaskQueue.prototype.disconnect = function(){
 
 function getChannel(channelId){
 	if(this.channels[channelId]){
-		return Promise.resolve(this.channels[channelId]);
+		return promise.resolve(this.channels[channelId]);
 	}
 
 	var self = this;

@@ -6,7 +6,7 @@ var log = require('../logger').logger;
 var _ = require('lodash');
 var config = require('../config/environment');
 
-var Promise = require('bluebird').Promise;
+var promise = require('bluebird').Promise;
 
 //Mongo
 var mongoose = require('mongoose');
@@ -82,7 +82,7 @@ exports.saveFoodTruck = function(truck){
  */
 exports.saveFoodTrucks = function(foodTrucks){
 	if(foodTrucks.length === 0){
-		return Promise.resolve(foodTrucks);
+		return promise.resolve(foodTrucks);
 	}
 
 	var bulk = FoodTruck.collection.initializeUnorderedBulkOp();
@@ -97,7 +97,7 @@ exports.saveFoodTrucks = function(foodTrucks){
 	}
 
 	//Not a good practise to use 'new Promise(...)'
-	return new Promise(function(resolve, reject){
+	return new promise(function(resolve, reject){
 		bulk.execute(function(err, persisted){
 			if(err){
 				reject(err);
